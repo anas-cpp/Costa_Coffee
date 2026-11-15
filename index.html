@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa — Artisanal Coffee Roasters &amp; Bakery</title>
+    
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        espresso: {
+                            DEFAULT: '#2C1E16',
+                            dark: '#1E140E',
+                            light: '#3E2B20',
+                            muted: '#5C4436'
+                        },
+                        cream: {
+                            DEFAULT: '#FAF6F0',
+                            dark: '#F0E8DC',
+                            light: '#FFFDF9'
+                        },
+                        caramel: {
+                            DEFAULT: '#C87D55',
+                            hover: '#B36A43',
+                            light: '#E3A887',
+                            soft: '#F4E5DC'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['"Inter"', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'warm': '0 10px 30px -5px rgba(44, 30, 22, 0.08)',
+                        'warm-lg': '0 20px 40px -10px rgba(44, 30, 22, 0.16)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased selection:bg-caramel selection:text-white overflow-x-hidden">
+
+    <!-- =====================================================================
+         1. STICKY NAVBAR WITH MOBILE MENU & CART BADGE
+    ====================================================================== -->
+    <header id="navbar" class="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-espresso/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="w-10 h-10 rounded-full bg-espresso text-cream flex items-center justify-center shadow-sm group-hover:bg-caramel transition-colors duration-300">
+                        <!-- Custom Coffee Bean / Cup SVG Icon -->
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                            <line x1="6" y1="2" x2="6" y2="4"/>
+                            <line x1="10" y1="2" x2="10" y2="4"/>
+                            <line x1="14" y1="2" x2="14" y2="4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl font-bold tracking-tight text-espresso block leading-none">Costa</span>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-espresso-muted font-medium">Roasters &amp; Cafe</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-sm font-medium text-espresso/80 hover:text-caramel transition-colors py-2">About</a>
+                    <a href="#menu" class="text-sm font-medium text-espresso/80 hover:text-caramel transition-colors py-2">Menu</a>
+                    <a href="#reviews" class="text-sm font-medium text-espresso/80 hover:text-caramel transition-colors py-2">Reviews</a>
+                    <a href="#visit" class="text-sm font-medium text-espresso/80 hover:text-caramel transition-colors py-2">Visit</a>
+                </nav>
+
+                <!-- Right Actions: Cart Button, Reserve CTA, Mobile Hamburger -->
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <!-- Cart Trigger Button -->
+                    <button id="open-cart-btn" type="button" aria-label="Open order cart" class="relative p-3 rounded-full text-espresso hover:bg-cream-dark transition-colors focus:outline-none focus:ring-2 focus:ring-caramel">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                            <path d="M3 6h18"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span id="cart-badge" class="absolute top-1 right-1 min-w-[20px] h-5 px-1 rounded-full bg-caramel text-white text-[11px] font-bold flex items-center justify-center shadow-sm transform transition-transform duration-200">
+                            0
+                        </span>
+                    </button>
+
+                    <!-- Reserve a Table CTA (Desktop & Tablet) -->
+                    <button type="button" onclick="openReservationModal()" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-espresso text-cream text-sm font-medium hover:bg-caramel transition-all duration-300 shadow-sm hover:shadow">
+                        Reserve a Table
+                    </button>
+
+                    <!-- Mobile Menu Toggle Button -->
+                    <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" aria-expanded="false" class="md:hidden p-3 rounded-xl text-espresso hover:bg-cream-dark transition-colors focus:outline-none focus:ring-2 focus:ring-caramel">
+                        <svg id="hamburger-icon" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="6" x2="20" y2="6"/>
+                            <line x1="4" y1="12" x2="20" y2="12"/>
+                            <line x1="4" y1="18" x2="20" y2="18"/>
+                        </svg>
+                        <svg id="close-menu-icon" class="w-6 h-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream-light border-b border-espresso/10 px-4 pt-3 pb-6 space-y-2 shadow-warm">
+            <a href="#about" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-espresso hover:bg-cream-dark hover:text-caramel transition-colors">About Us</a>
+            <a href="#menu" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-espresso hover:bg-cream-dark hover:text-caramel transition-colors">Our Menu</a>
+            <a href="#reviews" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-espresso hover:bg-cream-dark hover:text-caramel transition-colors">Guest Reviews</a>
+            <a href="#visit" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-espresso hover:bg-cream-dark hover:text-caramel transition-colors">Location &amp; Hours</a>
+            <div class="pt-3 px-2">
+                <button type="button" onclick="openReservationModal(); closeMobileMenu();" class="w-full py-3.5 px-5 rounded-full bg-caramel text-white font-semibold text-center shadow-sm hover:bg-caramel-hover transition-colors">
+                    Reserve a Table
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         2. FULL-HEIGHT HERO SECTION
+    ====================================================================== -->
+    <section class="relative min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden bg-espresso-dark">
+        <!-- Background Image with Fallback -->
+        <img 
+            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80" 
+            onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/2C1E16/FAF6F0?text=Costa+Artisanal+Coffee';"
+            alt="Freshly poured latte art in a warm cafe setting" 
+            class="absolute inset-0 w-full h-full object-cover object-center scale-105"
+        >
+        <!-- Dark Espresso Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#1E140E]/95 via-[#2C1E16]/80 to-[#2C1E16]/45"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#1E140E]/80 via-transparent to-transparent"></div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream/10 backdrop-blur-md border border-cream/20 text-caramel-light text-xs sm:text-sm font-medium tracking-wider uppercase mb-6">
+                    <span class="w-2 h-2 rounded-full bg-caramel animate-pulse"></span>
+                    Small-Batch Roasted Daily • Est. 2016
+                </div>
+                
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold text-cream leading-[1.12] tracking-tight mb-6">
+                    Crafted with Soul, <span class="italic font-normal text-caramel-light">Poured</span> with Warmth.
+                </h1>
+                
+                <p class="text-base sm:text-lg lg:text-xl text-cream/85 font-light leading-relaxed mb-10 max-w-xl">
+                    Step into Costa for ethically sourced single-origin espresso, velvety micro-foam lattes, and warm laminated pastries baked fresh every morning.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <a href="#menu" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-caramel text-white font-semibold text-base hover:bg-caramel-hover transition-all duration-300 shadow-warm-lg hover:-translate-y-0.5">
+                        <span>Explore Menu</span>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                    <button type="button" onclick="openReservationModal()" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-cream/10 hover:bg-cream/20 text-cream border border-cream/30 backdrop-blur-sm font-semibold text-base transition-all duration-300">
+                        <svg class="w-4 h-4 text-caramel-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <span>Book a Table</span>
+                    </button>
+                </div>
+
+                <!-- Quick Trust Highlights -->
+                <div class="mt-14 pt-8 border-t border-cream/15 grid grid-cols-3 gap-4 sm:gap-8 max-w-lg">
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-cream">100%</p>
+                        <p class="text-xs sm:text-sm text-cream/70 mt-1">Direct-Trade Arabica</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-cream">4.9★</p>
+                        <p class="text-xs sm:text-sm text-cream/70 mt-1">Local Community Rated</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-cream">6 AM</p>
+                        <p class="text-xs sm:text-sm text-cream/70 mt-1">Fresh Oven Bakes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         3. ABOUT US SECTION (BRAND STORY, HIGHLIGHTS & CURATED IMAGES)
+    ====================================================================== -->
+    <section id="about" class="py-20 lg:py-28 bg-cream relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                
+                <!-- Image Collage Column -->
+                <div class="lg:col-span-6 relative">
+                    <div class="grid grid-cols-12 gap-4 items-end">
+                        <div class="col-span-7">
+                            <div class="rounded-3xl overflow-hidden shadow-warm-lg aspect-[4/5] bg-cream-dark">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" 
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x750/3E2B20/FAF6F0?text=Artisanal+Pour+Over';"
+                                    alt="Barista pouring precision filter coffee" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                        </div>
+                        <div class="col-span-5 space-y-4">
+                            <div class="rounded-3xl overflow-hidden shadow-warm aspect-square bg-cream-dark">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" 
+                                    onerror="this.onerror=null;this.src='https://placehold.co/500x500/C87D55/FAF6F0?text=Cozy+Interior';"
+                                    alt="Warm sunlit seating inside Costa Cafe" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                            <!-- Floating Artisan Stat Card -->
+                            <div class="rounded-3xl bg-espresso text-cream p-5 sm:p-6 shadow-warm">
+                                <p class="font-serif text-3xl sm:text-4xl font-bold text-caramel">10+ Yrs</p>
+                                <p class="text-xs sm:text-sm text-cream/80 mt-1 leading-snug">Of roasting heritage &amp; neighborhood hospitality.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand Story Column -->
+                <div class="lg:col-span-6">
+                    <span class="text-caramel font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] block mb-3">Our Philosophy</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso leading-tight mb-6">
+                        Where Every Cup Tells an Origin Story.
+                    </h2>
+                    <p class="text-espresso-muted text-base sm:text-lg leading-relaxed mb-5">
+                        At <strong class="text-espresso font-semibold">Costa</strong>, we believe great coffee is never rushed. We partner directly with high-altitude family farms in Colombia, Ethiopia, and Guatemala—paying well above fair-trade minimums to honor the hands that harvest every cherry.
+                    </p>
+                    <p class="text-espresso-muted text-base sm:text-lg leading-relaxed mb-8">
+                        Back in our neighborhood roastery, we roast in small batches to unlock natural notes of toasted hazelnut, dark cacao, and stone fruit. Pair your pour-over with our sourdough croissants in a sunlit space built for slow mornings and meaningful conversation.
+                    </p>
+
+                    <!-- Three Pillars Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-espresso/10">
+                        <div class="p-4 rounded-2xl bg-cream-light border border-espresso/5 shadow-sm">
+                            <div class="w-9 h-9 rounded-xl bg-caramel-soft text-caramel flex items-center justify-center mb-3">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif font-bold text-espresso text-base mb-1">Ethically Sourced</h3>
+                            <p class="text-xs text-espresso-muted leading-relaxed">100% traceable single-origin lots from sustainable farms.</p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-cream-light border border-espresso/5 shadow-sm">
+                            <div class="w-9 h-9 rounded-xl bg-caramel-soft text-caramel flex items-center justify-center mb-3">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif font-bold text-espresso text-base mb-1">Artisanal Roast</h3>
+                            <p class="text-xs text-espresso-muted leading-relaxed">Precision drum-roasted weekly for peak aromatic sweetness.</p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-cream-light border border-espresso/5 shadow-sm">
+                            <div class="w-9 h-9 rounded-xl bg-caramel-soft text-caramel flex items-center justify-center mb-3">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif font-bold text-espresso text-base mb-1">Cozy Sanctuary</h3>
+                            <p class="text-xs text-espresso-muted leading-relaxed">Warm timber, vinyl acoustics, and fast Wi-Fi for guests.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         4. INTERACTIVE FILTERABLE MENU SECTION
+    ====================================================================== -->
+    <section id="menu" class="py-20 lg:py-28 bg-cream-dark/60 border-y border-espresso/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-caramel font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] block mb-3">Seasonal Offerings</span>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso mb-4">Curated Cafe Menu</h2>
+                <p class="text-espresso-muted text-base sm:text-lg">
+                    Prepared to order by our baristas and pastry chefs. Add your favorites to your pickup order below.
+                </p>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div id="menu-filters" role="tablist" aria-label="Menu Categories" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+                <button type="button" data-category="All" class="filter-btn active px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 bg-espresso text-cream shadow-sm">
+                    All Items
+                </button>
+                <button type="button" data-category="Hot Coffee" class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 bg-cream-light text-espresso hover:bg-caramel-soft border border-espresso/10">
+                    Hot Coffee
+                </button>
+                <button type="button" data-category="Iced" class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 bg-cream-light text-espresso hover:bg-caramel-soft border border-espresso/10">
+                    Iced
+                </button>
+                <button type="button" data-category="Bakery" class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 bg-cream-light text-espresso hover:bg-caramel-soft border border-espresso/10">
+                    Bakery
+                </button>
+            </div>
+
+            <!-- Menu Cards Grid (Populated via JS) -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <!-- Cards injected dynamically -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         6. CUSTOMER REVIEWS SECTION
+    ====================================================================== -->
+    <section id="reviews" class="py-20 lg:py-28 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+                <div>
+                    <span class="text-caramel font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] block mb-3">Guest Stories</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso">Loved by Coffee Purists</h2>
+                </div>
+                <div class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-cream-light border border-espresso/10 shadow-sm self-start md:self-auto">
+                    <div class="flex text-caramel">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <span class="text-sm font-semibold text-espresso">4.9 / 5.0</span>
+                    <span class="text-xs text-espresso-muted">(640+ Verified Visits)</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Review 1 -->
+                <article class="bg-cream-light rounded-3xl p-8 border border-espresso/10 shadow-warm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex text-caramel text-lg tracking-wider" aria-label="5 out of 5 stars">★★★★★</div>
+                            <span class="text-xs font-medium px-3 py-1 rounded-full bg-caramel-soft text-espresso">Regular Guest</span>
+                        </div>
+                        <blockquote class="font-serif italic text-lg text-espresso leading-relaxed mb-6">
+                            "The Honey Cinnamon Cortado is unmatched anywhere in the city. You can taste the sweetness of the roast without needing extra sugar, and the ambiance feels like a warm hug."
+                        </blockquote>
+                    </div>
+                    <div class="flex items-center gap-4 pt-5 border-t border-espresso/10">
+                        <div class="w-11 h-11 rounded-full bg-espresso text-cream font-serif font-bold flex items-center justify-center text-sm">
+                            EL
+                        </div>
+                        <div>
+                            <p class="font-semibold text-espresso text-sm">Elena Linwood</p>
+                            <p class="text-xs text-espresso-muted">Architect &amp; Morning Regular</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Review 2 -->
+                <article class="bg-espresso text-cream rounded-3xl p-8 shadow-warm-lg flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-caramel/15 pointer-events-none"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex text-caramel text-lg tracking-wider" aria-label="5 out of 5 stars">★★★★★</div>
+                            <span class="text-xs font-medium px-3 py-1 rounded-full bg-cream/10 text-caramel-light">Top Pick</span>
+                        </div>
+                        <blockquote class="font-serif italic text-lg text-cream/95 leading-relaxed mb-6">
+                            "Their Brown Butter Cardamom Bun paired with an Iced Vanilla Bean Cold Brew has become my Saturday ritual. Friendly baristas who genuinely care about extraction and hospitality."
+                        </blockquote>
+                    </div>
+                    <div class="flex items-center gap-4 pt-5 border-t border-cream/15">
+                        <div class="w-11 h-11 rounded-full bg-caramel text-white font-serif font-bold flex items-center justify-center text-sm">
+                            MR
+                        </div>
+                        <div>
+                            <p class="font-semibold text-cream text-sm">Marcus Vance-Reid</p>
+                            <p class="text-xs text-cream/70">Food Writer, Harvest Journal</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Review 3 -->
+                <article class="bg-cream-light rounded-3xl p-8 border border-espresso/10 shadow-warm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex text-caramel text-lg tracking-wider" aria-label="5 out of 5 stars">★★★★★</div>
+                            <span class="text-xs font-medium px-3 py-1 rounded-full bg-caramel-soft text-espresso">Weekend Brunch</span>
+                        </div>
+                        <blockquote class="font-serif italic text-lg text-espresso leading-relaxed mb-6">
+                            "Reserved a corner table for four using their online booking—everything was seamless. Flaky pistachio croissants, sunlit leather booths, and soulful acoustic playlists."
+                        </blockquote>
+                    </div>
+                    <div class="flex items-center gap-4 pt-5 border-t border-espresso/10">
+                        <div class="w-11 h-11 rounded-full bg-caramel-soft text-espresso font-serif font-bold flex items-center justify-center text-sm">
+                            SK
+                        </div>
+                        <div>
+                            <p class="font-semibold text-espresso text-sm">Soraia Kapoor</p>
+                            <p class="text-xs text-espresso-muted">Creative Director</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         7. LOCATION & HOURS SECTION WITH INTERACTIVE VISUAL MAP CARD
+    ====================================================================== -->
+    <section id="visit" class="py-20 lg:py-28 bg-cream-dark/70 border-t border-espresso/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+                
+                <!-- Location Details Card -->
+                <div class="lg:col-span-5 bg-cream-light rounded-3xl p-8 sm:p-10 border border-espresso/10 shadow-warm flex flex-col justify-between">
+                    <div>
+                        <span class="text-caramel font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] block mb-3">Visit Us</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso mb-6">Find Your Seat at Costa</h2>
+                        
+                        <!-- Open Status Pill -->
+                        <div id="open-status-pill" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/10 text-emerald-900 text-xs font-semibold mb-8">
+                            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+                            <span>Roastery &amp; Cafe Open Today</span>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Address -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-2xl bg-caramel-soft text-caramel flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-espresso text-base">Flagship Roastery</h3>
+                                    <p class="text-sm text-espresso-muted mt-1 leading-relaxed">
+                                        418 Mercer Street, Arts District<br>
+                                        Portland, OR 97205
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Hours -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-2xl bg-caramel-soft text-caramel flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </div>
+                                <div class="w-full">
+                                    <h3 class="font-semibold text-espresso text-base">Opening Hours</h3>
+                                    <ul class="text-sm text-espresso-muted mt-1.5 space-y-1.5">
+                                        <li class="flex justify-between">
+                                            <span>Mon – Fri</span>
+                                            <span class="font-medium text-espresso">6:30 AM – 7:00 PM</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span>Saturday</span>
+                                            <span class="font-medium text-espresso">7:00 AM – 8:00 PM</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span>Sunday</span>
+                                            <span class="font-medium text-espresso">7:30 AM – 6:00 PM</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-2xl bg-caramel-soft text-caramel flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-espresso text-base">Direct Line &amp; Events</h3>
+                                    <p class="text-sm text-espresso-muted mt-1">(503) 555-0194</p>
+                                    <p class="text-sm text-caramel font-medium">hello@costaroasters.example</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-espresso/10 flex flex-wrap gap-3">
+                        <button type="button" onclick="openReservationModal()" class="flex-1 py-3.5 px-5 rounded-full bg-espresso text-cream text-sm font-semibold hover:bg-caramel transition-colors text-center">
+                            Reserve a Table
+                        </button>
+                        <button type="button" id="copy-address-btn" onclick="copyCafeAddress()" class="py-3.5 px-5 rounded-full bg-cream-dark text-espresso text-sm font-semibold hover:bg-caramel-soft transition-colors">
+                            Copy Address
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Styled Architectural Map Card -->
+                <div class="lg:col-span-7 rounded-3xl overflow-hidden shadow-warm-lg border border-espresso/15 bg-[#EFE7DB] relative min-h-[420px] flex flex-col justify-between p-6 sm:p-8">
+                    <!-- Custom Vector Stylized Neighborhood Map -->
+                    <svg class="absolute inset-0 w-full h-full object-cover" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                        <!-- Base Terrain -->
+                        <rect width="800" height="600" fill="#EFE7DB"/>
+                        <!-- Park Green Blocks -->
+                        <rect x="60" y="60" width="190" height="150" rx="24" fill="#DCE3D1"/>
+                        <rect x="540" y="380" width="210" height="170" rx="24" fill="#DCE3D1"/>
+                        <!-- River / Waterfront Curve -->
+                        <path d="M 680 -20 Q 620 220 740 420 T 780 630 L 830 630 L 830 -20 Z" fill="#D5E2E6"/>
+                        <!-- City Grid Blocks -->
+                        <rect x="280" y="60" width="220" height="150" rx="14" fill="#E6DDD0"/>
+                        <rect x="60" y="245" width="190" height="120" rx="14" fill="#E6DDD0"/>
+                        <rect x="280" y="245" width="220" height="120" rx="14" fill="#E3D7C7" stroke="#C87D55" stroke-width="2" stroke-dasharray="6 4"/>
+                        <rect x="60" y="400" width="190" height="150" rx="14" fill="#E6DDD0"/>
+                        <rect x="280" y="400" width="220" height="150" rx="14" fill="#E6DDD0"/>
+                        <rect x="530" y="60" width="130" height="150" rx="14" fill="#E6DDD0"/>
+                        <rect x="530" y="245" width="145" height="110" rx="14" fill="#E6DDD0"/>
+                        
+                        <!-- Streets -->
+                        <line x1="0" y1="228" x2="800" y2="228" stroke="#FAF6F0" stroke-width="16"/>
+                        <line x1="0" y1="382" x2="800" y2="382" stroke="#FAF6F0" stroke-width="14"/>
+                        <line x1="265" y1="0" x2="265" y2="600" stroke="#FAF6F0" stroke-width="18"/>
+                        <line x1="515" y1="0" x2="515" y2="600" stroke="#FAF6F0" stroke-width="14"/>
+                        
+                        <!-- Street Labels -->
+                        <text x="90" y="232" fill="#7D685A" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="2">MERCER STREET</text>
+                        <text x="269" y="140" fill="#7D685A" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="2" transform="rotate(90 269 140)">NW 4TH AVENUE</text>
+                        <text x="105" y="140" fill="#6F8263" font-family="Inter, sans-serif" font-size="11" font-weight="600">COUCH PARK</text>
+                    </svg>
+
+                    <!-- Top Map Controls (Interactive Landmarks Switcher) -->
+                    <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
+                        <div class="bg-cream/95 backdrop-blur-md px-4 py-2 rounded-full border border-espresso/10 shadow-sm flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-caramel"></span>
+                            <span class="text-xs font-semibold text-espresso">Arts District • Mercer St &amp; 4th</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="highlightMapTip('parking')" class="px-3.5 py-2 rounded-full bg-cream/95 hover:bg-espresso hover:text-cream text-espresso text-xs font-medium border border-espresso/10 shadow-sm transition-colors">
+                                🅿️ Bike &amp; Street Parking
+                            </button>
+                            <button type="button" onclick="highlightMapTip('transit')" class="px-3.5 py-2 rounded-full bg-cream/95 hover:bg-espresso hover:text-cream text-espresso text-xs font-medium border border-espresso/10 shadow-sm transition-colors">
+                                🚋 Streetcar Stop
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Center Interactive Cafe Pin -->
+                    <div class="relative z-10 my-auto mx-auto flex flex-col items-center">
+                        <div class="bg-espresso text-cream px-5 py-3.5 rounded-2xl shadow-warm-lg border border-caramel/40 mb-3 max-w-xs text-center transform transition-transform hover:scale-105">
+                            <p class="font-serif font-bold text-base text-caramel-light">Costa Roasters &amp; Cafe</p>
+                            <p id="map-pin-subtitle" class="text-xs text-cream/85 mt-0.5">418 Mercer St • Sunlit Patio &amp; Roastery</p>
+                        </div>
+                        <div class="relative flex items-center justify-center">
+                            <span class="absolute w-12 h-12 rounded-full bg-caramel/30 animate-ping"></span>
+                            <div class="w-11 h-11 rounded-full bg-caramel text-white flex items-center justify-center shadow-lg border-4 border-cream">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Map Info Bar -->
+                    <div class="relative z-10 bg-cream/95 backdrop-blur-md rounded-2xl p-4 border border-espresso/10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <p id="map-tip-banner" class="text-xs sm:text-sm text-espresso-muted">
+                            <strong class="text-espresso">Tip:</strong> Enter via the cedar courtyard on Mercer Street for outdoor patio seating.
+                        </p>
+                        <a href="https://maps.google.com/?q=418+Mercer+Street+Portland+OR" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold text-caramel hover:text-caramel-hover shrink-0">
+                            <span>Open in Google Maps</span>
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         9. COHESIVE ESPRESSO-THEMED FOOTER
+    ====================================================================== -->
+    <footer class="bg-espresso-dark text-cream pt-16 pb-10 border-t border-cream/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14 border-b border-cream/10">
+                
+                <!-- Brand Column -->
+                <div class="lg:col-span-4">
+                    <a href="#" class="inline-flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-full bg-caramel text-white flex items-center justify-center">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>
+                            </svg>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-cream">Costa</span>
+                    </a>
+                    <p class="text-sm text-cream/70 leading-relaxed max-w-sm mb-6">
+                        Small-batch specialty coffee roasters and neighborhood bakery dedicated to ethical sourcing, warm hospitality, and unhurried mornings.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a href="#visit" aria-label="Instagram" class="w-10 h-10 rounded-full bg-cream/10 hover:bg-caramel text-cream flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </a>
+                        <a href="#visit" aria-label="Twitter" class="w-10 h-10 rounded-full bg-cream/10 hover:bg-caramel text-cream flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="#visit" aria-label="Facebook" class="w-10 h-10 rounded-full bg-cream/10 hover:bg-caramel text-cream flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="lg:col-span-2">
+                    <h3 class="font-serif font-semibold text-base text-cream mb-4">Explore</h3>
+                    <ul class="space-y-3 text-sm text-cream/70">
+                        <li><a href="#about" class="hover:text-caramel-light transition-colors">Our Story</a></li>
+                        <li><a href="#menu" class="hover:text-caramel-light transition-colors">Seasonal Menu</a></li>
+                        <li><a href="#reviews" class="hover:text-caramel-light transition-colors">Guest Reviews</a></li>
+                        <li><a href="#visit" class="hover:text-caramel-light transition-colors">Hours &amp; Location</a></li>
+                    </ul>
+                </div>
+
+                <!-- Hospitality Links -->
+                <div class="lg:col-span-2">
+                    <h3 class="font-serif font-semibold text-base text-cream mb-4">Hospitality</h3>
+                    <ul class="space-y-3 text-sm text-cream/70">
+                        <li><button type="button" onclick="openReservationModal()" class="hover:text-caramel-light transition-colors text-left">Reserve a Table</button></li>
+                        <li><button type="button" onclick="openCartDrawer()" class="hover:text-caramel-light transition-colors text-left">Order Pickup</button></li>
+                        <li><a href="#about" class="hover:text-caramel-light transition-colors">Wholesale Beans</a></li>
+                        <li><a href="#visit" class="hover:text-caramel-light transition-colors">Private Tastings</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="lg:col-span-4">
+                    <h3 class="font-serif font-semibold text-base text-cream mb-3">Roastery Notes &amp; First Sips</h3>
+                    <p class="text-sm text-cream/70 mb-4 leading-relaxed">
+                        Receive seasonal single-origin release notes and a complimentary pastry voucher on your birthday.
+                    </p>
+                    <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2.5" novalidate>
+                        <label for="newsletter-email" class="sr-only">Email address</label>
+                        <input 
+                            id="newsletter-email" 
+                            type="email" 
+                            required 
+                            placeholder="you@example.com" 
+                            class="w-full px-4 py-3 rounded-full bg-cream/10 border border-cream/20 text-cream placeholder-cream/45 text-sm focus:outline-none focus:border-caramel focus:ring-1 focus:ring-caramel"
+                        >
+                        <button type="submit" class="px-6 py-3 rounded-full bg-caramel hover:bg-caramel-hover text-white text-sm font-semibold shrink-0 transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                    <p id="newsletter-feedback" class="text-xs mt-2.5 hidden"></p>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/55">
+                <p>&copy; <span id="current-year">2026</span> Costa Roasters &amp; Cafe. All rights reserved.</p>
+                <p>Crafted with fair-trade beans &amp; warm hospitality.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =====================================================================
+         5. SLIDE-OUT ORDER CART DRAWER
+    ====================================================================== -->
+    <div id="cart-overlay" class="fixed inset-0 z-50 hidden" aria-labelledby="cart-drawer-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="cart-backdrop" class="fixed inset-0 bg-espresso-dark/65 backdrop-blur-xs transition-opacity opacity-0"></div>
+        
+        <!-- Drawer Panel -->
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-panel" class="w-screen max-w-md bg-cream text-espresso shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-out">
+                
+                <!-- Drawer Header -->
+                <div class="px-6 py-5 bg-cream-light border-b border-espresso/10 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <h2 id="cart-drawer-title" class="font-serif text-xl font-bold text-espresso">Your Pickup Order</h2>
+                        <span id="drawer-item-count" class="px-2.5 py-0.5 rounded-full bg-caramel-soft text-espresso text-xs font-bold">0</span>
+                    </div>
+                    <button id="close-cart-btn" type="button" aria-label="Close cart" class="p-2.5 rounded-full text-espresso-muted hover:text-espresso hover:bg-cream-dark transition-colors">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Drawer Body: Cart Items OR Empty State OR Order Confirmation -->
+                <div id="cart-body" class="flex-1 overflow-y-auto p-6">
+                    <!-- Dynamic Cart Contents Rendered Here -->
+                </div>
+
+                <!-- Drawer Footer: Totals & Checkout Button -->
+                <div id="cart-footer" class="p-6 bg-cream-light border-t border-espresso/10 hidden">
+                    <div class="space-y-2 text-sm mb-5">
+                        <div class="flex justify-between text-espresso-muted">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal" class="font-medium text-espresso">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-espresso-muted">
+                            <span>Estimated Tax (8.5%)</span>
+                            <span id="cart-tax" class="font-medium text-espresso">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-espresso pt-2.5 border-t border-espresso/10">
+                            <span>Total</span>
+                            <span id="cart-total" class="font-serif text-xl text-caramel">$0.00</span>
+                        </div>
+                    </div>
+                    <button id="place-order-btn" type="button" onclick="simulateCheckout()" class="w-full py-4 px-6 rounded-full bg-espresso hover:bg-caramel text-cream font-semibold text-base transition-colors shadow-warm flex items-center justify-center gap-2">
+                        <span>Place Pickup Order</span>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         8. INTERACTIVE TABLE RESERVATION MODAL
+    ====================================================================== -->
+    <div id="reservation-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <!-- Backdrop -->
+            <div id="modal-backdrop" onclick="closeReservationModal()" class="fixed inset-0 bg-espresso-dark/70 backdrop-blur-xs transition-opacity"></div>
+
+            <!-- Modal Card -->
+            <div class="relative inline-block align-bottom bg-cream rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-espresso/15">
+                
+                <!-- Modal Top Banner -->
+                <div class="bg-espresso text-cream px-6 py-5 flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] uppercase tracking-[0.2em] text-caramel-light font-semibold block">Costa Hospitality</span>
+                        <h3 id="modal-title" class="font-serif text-2xl font-bold">Reserve a Table</h3>
+                    </div>
+                    <button type="button" onclick="closeReservationModal()" aria-label="Close modal" class="p-2 rounded-full bg-cream/10 hover:bg-cream/20 text-cream transition-colors">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Form View -->
+                <div id="reservation-form-container" class="p-6 sm:p-8">
+                    <form id="reservation-form" class="space-y-4" novalidate>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="res-date" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Date *</label>
+                                <input type="date" id="res-date" required class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                            </div>
+                            <div>
+                                <label for="res-time" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Preferred Time *</label>
+                                <select id="res-time" required class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                                    <option value="08:30 AM">08:30 AM (Morning Rush)</option>
+                                    <option value="10:00 AM" selected>10:00 AM (Brunch)</option>
+                                    <option value="12:00 PM">12:00 PM (Midday)</option>
+                                    <option value="02:30 PM">02:30 PM (Afternoon Pour)</option>
+                                    <option value="04:30 PM">04:30 PM (Golden Hour)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="res-guests" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Party Size *</label>
+                            <select id="res-guests" required class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                                <option value="1 Guest">1 Guest (Window Counter)</option>
+                                <option value="2 Guests" selected>2 Guests (Cozy Two-Top)</option>
+                                <option value="4 Guests">4 Guests (Booth Table)</option>
+                                <option value="6 Guests">6 Guests (Communal Timber Table)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="res-name" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Full Name *</label>
+                            <input type="text" id="res-name" required placeholder="e.g., Clara Beaumont" class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                        </div>
+
+                        <div>
+                            <label for="res-contact" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Email or Phone *</label>
+                            <input type="text" id="res-contact" required placeholder="clara@example.com or (503) 555-0123" class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                        </div>
+
+                        <div>
+                            <label for="res-notes" class="block text-xs font-semibold uppercase tracking-wider text-espresso-muted mb-1.5">Special Requests (Optional)</label>
+                            <input type="text" id="res-notes" placeholder="Patio seating, high chair, oat milk flight..." class="w-full px-4 py-3 rounded-xl bg-cream-light border border-espresso/15 text-espresso text-sm focus:outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20">
+                        </div>
+
+                        <!-- Validation Error Box -->
+                        <div id="res-error" class="hidden p-3 rounded-xl bg-red-900/10 border border-red-800/20 text-red-900 text-xs font-medium"></div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                            <button type="submit" class="w-full py-3.5 px-6 rounded-full bg-caramel hover:bg-caramel-hover text-white font-semibold text-sm shadow-warm transition-colors">
+                                Confirm Table Reservation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal Instant Confirmation State -->
+                <div id="reservation-confirmation" class="hidden p-8 text-center">
+                    <div class="w-16 h-16 rounded-full bg-emerald-900/10 text-emerald-800 flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-caramel">Reservation Confirmed</span>
+                    <h4 class="font-serif text-2xl font-bold text-espresso mt-1 mb-3">We Look Forward to Hosting You!</h4>
+                    <p id="res-summary-text" class="text-sm text-espresso-muted leading-relaxed bg-cream-light p-4 rounded-2xl border border-espresso/10 mb-6"></p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button type="button" onclick="resetReservationForm()" class="px-5 py-3 rounded-full bg-cream-dark text-espresso text-sm font-semibold hover:bg-caramel-soft transition-colors">
+                            Modify / New Booking
+                        </button>
+                        <button type="button" onclick="closeReservationModal()" class="px-6 py-3 rounded-full bg-espresso text-cream text-sm font-semibold hover:bg-caramel transition-colors">
+                            Done
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtle Floating Toast Notification -->
+    <div id="toast-notification" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-espresso text-cream px-5 py-3.5 rounded-2xl shadow-warm-lg border border-caramel/30 flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-caramel text-white flex items-center justify-center text-xs font-bold">✓</span>
+            <span id="toast-message" class="text-sm font-medium">Added to your order</span>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         JAVASCRIPT APPLICATION LOGIC
+    ====================================================================== -->
+    <script>
+        /**
+         * Costa Cafe Menu Dataset
+         * Curated specialty drinks and pastries with Unsplash imagery & fallback placeholders
+         */
+        const MENU_ITEMS = [
+            {
+                id: 'hot-cortado',
+                name: 'Honey Cinnamon Cortado',
+                category: 'Hot Coffee',
+                price: 4.75,
+                badge: 'Barista Favorite',
+                description: 'Double ristretto pulled over wildflower honey, velvety steamed whole or oat milk, and Ceylon cinnamon.',
+                image: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'hot-flatwhite',
+                name: 'Single-Origin Flat White',
+                category: 'Hot Coffee',
+                price: 5.00,
+                badge: 'Ethiopian Yirgacheffe',
+                description: 'Silky micro-foam folded into bright floral espresso with delicate notes of bergamot and dark chocolate.',
+                image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'hot-mocha',
+                name: 'Spiced Cardamom Mocha',
+                category: 'Hot Coffee',
+                price: 5.50,
+                badge: 'House Specialty',
+                description: '70% single-estate dark cacao melted into rich espresso, infused with freshly ground green cardamom pods.',
+                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'iced-coldbrew',
+                name: 'Vanilla Bean Cold Brew',
+                category: 'Iced',
+                price: 5.25,
+                badge: '18-Hr Steeped',
+                description: 'Slow-steeped Colombian roast topped with house-made Madagascar vanilla bean sweet cream cold foam.',
+                image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'iced-caramel',
+                name: 'Salted Caramel Iced Latte',
+                category: 'Iced',
+                price: 5.75,
+                badge: 'Most Popular',
+                description: 'Chilled signature espresso layered over ice, silky milk, and our small-batch burnt caramel sea-salt drizzle.',
+                image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'iced-matcha',
+                name: 'Ceremonial Iced Matcha Latte',
+                category: 'Iced',
+                price: 5.95,
+                badge: 'Uji Harvest',
+                description: 'First-harvest Uji ceremonial matcha whisked to order over creamy oat milk and a touch of organic agave.',
+                image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'bakery-croissant',
+                name: 'Brown Butter Almond Croissant',
+                category: 'Bakery',
+                price: 4.95,
+                badge: 'Baked 6 AM',
+                description: '72-hour fermented sourdough laminated pastry filled with roasted almond frangipane and toasted flakes.',
+                image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'bakery-cinnamon',
+                name: 'Caramel Pecan Brioche Roll',
+                category: 'Bakery',
+                price: 5.25,
+                badge: 'Warm from Oven',
+                description: 'Pillowy brioche swirled with dark muscovado sugar, roasted Georgia pecans, and espresso-vanilla glaze.',
+                image: 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=800&q=80'
+            }
+        ];
+
+        // Application State
+        let activeCategory = 'All';
+        let cart = []; // Array of { id, name, price, image, quantity }
+        let toastTimeout = null;
+
+        /**
+         * Initialize Page on DOM Content Loaded
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Set current footer year
+                const yearEl = document.getElementById('current-year');
+                if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+                // Set minimum date on reservation input to today
+                const dateInput = document.getElementById('res-date');
+                if (dateInput) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.min = today;
+                    dateInput.value = today;
+                }
+
+                // Render initial menu and cart
+                renderMenu();
+                renderCart();
+
+                // Attach event listeners
+                setupFilterListeners();
+                setupMobileMenuListeners();
+                setupCartDrawerListeners();
+                setupReservationFormListener();
+                setupNewsletterListener();
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        });
+
+        /**
+         * Render Filtered Menu Cards
+         */
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            if (!grid) return;
+
+            const filtered = activeCategory === 'All'
+                ? MENU_ITEMS
+                : MENU_ITEMS.filter(item => item.category === activeCategory);
+
+            grid.innerHTML = filtered.map(item => `
+                <article class="group bg-cream-light rounded-3xl overflow-hidden border border-espresso/10 shadow-warm hover:shadow-warm-lg transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative aspect-[4/3] overflow-hidden bg-cream-dark">
+                            <img 
+                                src="${item.image}" 
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x450/2C1E16/FAF6F0?text=${encodeURIComponent(item.name)}';"
+                                alt="${item.name}" 
+                                loading="lazy"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            >
+                            <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-espresso/85 backdrop-blur-xs text-cream text-[11px] font-semibold tracking-wide">
+                                ${item.badge}
+                            </span>
+                            <span class="absolute bottom-3.5 right-3.5 px-3 py-1 rounded-full bg-cream/95 text-espresso font-bold text-sm shadow-sm">
+                                $${item.price.toFixed(2)}
+                            </span>
+                        </div>
+                        <div class="p-6 pb-4">
+                            <span class="text-[11px] uppercase tracking-widest text-caramel font-semibold block mb-1">${item.category}</span>
+                            <h3 class="font-serif text-xl font-bold text-espresso group-hover:text-caramel transition-colors mb-2">
+                                ${item.name}
+                            </h3>
+                            <p class="text-sm text-espresso-muted leading-relaxed">
+                                ${item.description}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <button 
+                            type="button" 
+                            onclick="addToCart('${item.id}')" 
+                            class="w-full py-3 px-4 rounded-2xl bg-cream-dark hover:bg-espresso text-espresso hover:text-cream font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98]"
+                        >
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            <span>Add to Order</span>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        /**
+         * Setup Category Filter Buttons
+         */
+        function setupFilterListeners() {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeCategory = btn.getAttribute('data-category') || 'All';
+
+                    // Update active button styles
+                    buttons.forEach(b => {
+                        b.classList.remove('bg-espresso', 'text-cream', 'shadow-sm');
+                        b.classList.add('bg-cream-light', 'text-espresso', 'border', 'border-espresso/10');
+                    });
+                    btn.classList.remove('bg-cream-light', 'text-espresso', 'border', 'border-espresso/10');
+                    btn.classList.add('bg-espresso', 'text-cream', 'shadow-sm');
+
+                    renderMenu();
+                });
+            });
+        }
+
+        /**
+         * Cart Management Functions
+         */
+        function addToCart(itemId) {
+            const product = MENU_ITEMS.find(item => item.id === itemId);
+            if (!product) return;
+
+            const existing = cart.find(entry => entry.id === itemId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            renderCart();
+            animateBadge();
+            showToast(`Added "${product.name}" to your order`);
+        }
+
+        function updateQuantity(itemId, delta) {
+            const index = cart.findIndex(entry => entry.id === itemId);
+            if (index === -1) return;
+
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(entry => entry.id !== itemId);
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartBody = document.getElementById('cart-body');
+            const cartFooter = document.getElementById('cart-footer');
+            const badge = document.getElementById('cart-badge');
+            const drawerCount = document.getElementById('drawer-item-count');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (badge) badge.textContent = totalItems;
+            if (drawerCount) drawerCount.textContent = totalItems;
+
+            if (!cartBody || !cartFooter) return;
+
+            if (cart.length === 0) {
+                cartFooter.classList.add('hidden');
+                cartBody.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12 px-4">
+                        <div class="w-16 h-16 rounded-full bg-cream-dark text-espresso-muted flex items-center justify-center mb-4">
+                            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Your order bag is empty</h3>
+                        <p class="text-sm text-espresso-muted max-w-xs mb-6">
+                            Explore our freshly roasted espresso drinks and warm morning pastries to start a pickup order.
+                        </p>
+                        <button type="button" onclick="closeCartDrawer(); document.getElementById('menu').scrollIntoView({behavior: 'smooth'});" class="px-6 py-3 rounded-full bg-caramel text-white text-sm font-semibold hover:bg-caramel-hover transition-colors">
+                            Browse Menu
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show footer and render cart line items
+            cartFooter.classList.remove('hidden');
+
+            cartBody.innerHTML = `
+                <ul class="space-y-4">
+                    ${cart.map(item => `
+                        <li class="flex items-center gap-4 p-3.5 rounded-2xl bg-cream-light border border-espresso/10 shadow-xs">
+                            <img 
+                                src="${item.image}" 
+                                onerror="this.onerror=null;this.src='https://placehold.co/120x120/2C1E16/FAF6F0?text=Costa';"
+                                alt="${item.name}" 
+                                class="w-16 h-16 rounded-xl object-cover shrink-0 bg-cream-dark"
+                            >
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-serif font-bold text-espresso text-sm truncate">${item.name}</h4>
+                                <p class="text-xs font-semibold text-caramel mt-0.5">$${(item.price * item.quantity).toFixed(2)}</p>
+                                
+                                <div class="flex items-center gap-2 mt-2.5">
+                                    <button type="button" aria-label="Decrease quantity" onclick="updateQuantity('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-cream-dark hover:bg-espresso hover:text-cream text-espresso font-bold text-sm flex items-center justify-center transition-colors">
+                                        −
+                                    </button>
+                                    <span class="text-xs font-bold w-6 text-center">${item.quantity}</span>
+                                    <button type="button" aria-label="Increase quantity" onclick="updateQuantity('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-cream-dark hover:bg-espresso hover:text-cream text-espresso font-bold text-sm flex items-center justify-center transition-colors">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" aria-label="Remove ${item.name}" onclick="removeFromCart('${item.id}')" class="p-2 text-espresso-muted hover:text-red-700 transition-colors">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+
+            // Calculate Subtotal, Tax & Total
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.085;
+            const total = subtotal + tax;
+
+            document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        /**
+         * Simulate Order Placement in Drawer
+         */
+        function simulateCheckout() {
+            if (cart.length === 0) return;
+
+            const orderNumber = Math.floor(1000 + Math.random() * 9000);
+            const itemCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+            
+            // Clear cart
+            cart = [];
+            const badge = document.getElementById('cart-badge');
+            const drawerCount = document.getElementById('drawer-item-count');
+            if (badge) badge.textContent = '0';
+            if (drawerCount) drawerCount.textContent = '0';
+
+            const cartFooter = document.getElementById('cart-footer');
+            const cartBody = document.getElementById('cart-body');
+            if (cartFooter) cartFooter.classList.add('hidden');
+
+            if (cartBody) {
+                cartBody.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-10 px-4">
+                        <div class="w-16 h-16 rounded-full bg-emerald-900/10 text-emerald-800 flex items-center justify-center mb-5">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-caramel">Order #${orderNumber} Confirmed</span>
+                        <h3 class="font-serif text-2xl font-bold text-espresso mt-1 mb-3">Baristas Are On It!</h3>
+                        <p class="text-sm text-espresso-muted leading-relaxed mb-6">
+                            We've received your order of <strong class="text-espresso">${itemCount} item${itemCount > 1 ? 's' : ''}</strong>. Ready for counter pickup at <strong class="text-espresso">418 Mercer St</strong> in approximately <strong class="text-espresso">12–15 minutes</strong>.
+                        </p>
+                        <button type="button" onclick="renderCart(); closeCartDrawer();" class="px-7 py-3.5 rounded-full bg-espresso text-cream text-sm font-semibold hover:bg-caramel transition-colors">
+                            Back to Cafe
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Slide-out Cart Drawer Open/Close Controls
+         */
+        function setupCartDrawerListeners() {
+            const openBtn = document.getElementById('open-cart-btn');
+            const closeBtn = document.getElementById('close-cart-btn');
+            const backdrop = document.getElementById('cart-backdrop');
+
+            if (openBtn) openBtn.addEventListener('click', openCartDrawer);
+            if (closeBtn) closeBtn.addEventListener('click', closeCartDrawer);
+            if (backdrop) backdrop.addEventListener('click', closeCartDrawer);
+        }
+
+        function openCartDrawer() {
+            const overlay = document.getElementById('cart-overlay');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+            if (!overlay || !backdrop || !panel) return;
+
+            overlay.classList.remove('hidden');
+            // Trigger CSS transition on next frame
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            });
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCartDrawer() {
+            const overlay = document.getElementById('cart-overlay');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+            if (!overlay || !backdrop || !panel) return;
+
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        /**
+         * Mobile Navigation Menu Toggle
+         */
+        function setupMobileMenuListeners() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const links = document.querySelectorAll('.mobile-nav-link');
+
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const menu = document.getElementById('mobile-menu');
+                    const isHidden = menu.classList.contains('hidden');
+                    if (isHidden) {
+                        openMobileMenu();
+                    } else {
+                        closeMobileMenu();
+                    }
+                });
+            }
+
+            links.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        }
+
+        function openMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const btn = document.getElementById('mobile-menu-btn');
+            const ham = document.getElementById('hamburger-icon');
+            const close = document.getElementById('close-menu-icon');
+
+            menu.classList.remove('hidden');
+            btn.setAttribute('aria-expanded', 'true');
+            ham.classList.add('hidden');
+            close.classList.remove('hidden');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const btn = document.getElementById('mobile-menu-btn');
+            const ham = document.getElementById('hamburger-icon');
+            const close = document.getElementById('close-menu-icon');
+
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            ham.classList.remove('hidden');
+            close.classList.add('hidden');
+        }
+
+        /**
+         * Table Reservation Modal Logic
+         */
+        function openReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function resetReservationForm() {
+            document.getElementById('reservation-form').reset();
+            document.getElementById('res-error').classList.add('hidden');
+            document.getElementById('reservation-confirmation').classList.add('hidden');
+            document.getElementById('reservation-form-container').classList.remove('hidden');
+        }
+
+        function setupReservationFormListener() {
+            const form = document.getElementById('reservation-form');
+            if (!form) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const date = document.getElementById('res-date').value.trim();
+                const time = document.getElementById('res-time').value;
+                const guests = document.getElementById('res-guests').value;
+                const name = document.getElementById('res-name').value.trim();
+                const contact = document.getElementById('res-contact').value.trim();
+                const notes = document.getElementById('res-notes').value.trim();
+                const errorBox = document.getElementById('res-error');
+
+                if (!date || !name || !contact) {
+                    errorBox.textContent = 'Please complete your preferred date, full name, and email or phone number.';
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                errorBox.classList.add('hidden');
+
+                // Format readable date
+                const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                const summaryEl = document.getElementById('res-summary-text');
+                summaryEl.innerHTML = `
+                    Reserved for <strong class="text-espresso">${escapeHtml(name)}</strong><br>
+                    <strong class="text-espresso">${guests}</strong> on <strong class="text-espresso">${formattedDate}</strong> at <strong class="text-espresso">${time}</strong>.<br>
+                    <span class="text-xs block mt-2">Confirmation sent to ${escapeHtml(contact)}${notes ? ` • Note: "${escapeHtml(notes)}"` : ''}</span>
+                `;
+
+                document.getElementById('reservation-form-container').classList.add('hidden');
+                document.getElementById('reservation-confirmation').classList.remove('hidden');
+            });
+        }
+
+        /**
+         * Interactive Map Card Controls & Address Copy
+         */
+        function highlightMapTip(type) {
+            const banner = document.getElementById('map-tip-banner');
+            const subtitle = document.getElementById('map-pin-subtitle');
+            if (!banner || !subtitle) return;
+
+            if (type === 'parking') {
+                subtitle.textContent = 'Covered Bike Racks & 2-Hr Metered Parking';
+                banner.innerHTML = '<strong class="text-espresso">Parking:</strong> Complimentary 2-hour street parking along NW 4th Ave and covered cedar bike racks in front.';
+            } else if (type === 'transit') {
+                subtitle.textContent = '2-Min Walk from NW 4th & Couch Streetcar';
+                banner.innerHTML = '<strong class="text-espresso">Transit:</strong> Take the NS Line Streetcar to NW 4th &amp; Couch—just one block south of our roastery.';
+            }
+        }
+
+        function copyCafeAddress() {
+            const address = '418 Mercer Street, Portland, OR 97205';
+            const tempInput = document.createElement('input');
+            tempInput.value = address;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast('Cafe address copied to clipboard');
+            } catch (err) {
+                showToast('418 Mercer Street, Portland, OR');
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        /**
+         * Newsletter Signup Handler
+         */
+        function setupNewsletterListener() {
+            const form = document.getElementById('newsletter-form');
+            const input = document.getElementById('newsletter-email');
+            const feedback = document.getElementById('newsletter-feedback');
+            if (!form || !input || !feedback) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = input.value.trim();
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+                feedback.classList.remove('hidden', 'text-red-300', 'text-caramel-light');
+                if (!isValid) {
+                    feedback.textContent = 'Please enter a valid email address.';
+                    feedback.classList.add('text-red-300');
+                    return;
+                }
+
+                feedback.textContent = 'Welcome to the Costa Roastery table! Check your inbox for a welcome treat.';
+                feedback.classList.add('text-caramel-light');
+                input.value = '';
+            });
+        }
+
+        /**
+         * UI Helpers: Toast Notification, Badge Pulse & XSS Sanitizer
+         */
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const msgEl = document.getElementById('toast-message');
+            if (!toast || !msgEl) return;
+
+            msgEl.textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 2600);
+        }
+
+        function animateBadge() {
+            const badge = document.getElementById('cart-badge');
+            if (!badge) return;
+            badge.classList.add('scale-125');
+            setTimeout(() => badge.classList.remove('scale-125'), 200);
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[tag]));
+        }
+
+        // Close modals/drawers on Escape key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeCartDrawer();
+                closeReservationModal();
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
